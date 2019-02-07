@@ -4,10 +4,11 @@ import com.example.carservice.model.Car;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Service("carService")
+@Service
 public class CarServiceImpl implements CarService {
     private static final AtomicLong counter = new AtomicLong();
 
@@ -50,10 +51,24 @@ public class CarServiceImpl implements CarService {
         cars.set(index, car);
     }
 
+    @Override
+    public void deleteCarById(long id) {
+        for (Iterator<Car> iterator = cars.iterator(); iterator.hasNext();) {
+            Car car = iterator.next();
+            if (car.getId() == id) {
+                iterator.remove();
+            }
+        }
+    }
+
 
     @Override
     public boolean isCarExist(Car car) {
         return findByName(car.getNazwa()) != null;
+    }
+
+    public void deleteAllCars() {
+        cars.clear();
     }
 
 

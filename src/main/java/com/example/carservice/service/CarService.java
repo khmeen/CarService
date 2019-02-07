@@ -13,6 +13,10 @@ public interface CarService {
 
     void updateCar(Car car);
 
+    void deleteCarById(long id);
+
+    void deleteAllCars();
+
     List<Car> findAllCars();
 
     boolean isCarExist(Car car);

@@ -59,5 +59,44 @@ public class RestApiController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateCar(@PathVariable("id") long id, @RequestBody Car car) {
+        logger.info("Updating car with id {}", id);
+        Car currentCar = carService.findById(id);
+
+        if (currentCar == null) {
+            logger.info("Unable to update. Car with id {} not found", id);
+            return new ResponseEntity(new CustomErrorType("Unable to update. Carwith id " + id + " not found."), HttpStatus.NOT_FOUND);
+        }
+
+        currentCar.setNazwa(car.getNazwa());
+        currentCar.setModelSamochodu(car.getModelSamochodu());
+
+        carService.updateCar(currentCar);
+        return new ResponseEntity<Car>(currentCar, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteCar(@PathVariable("id") long id) {
+        logger.info("Fetching & Deleting Car by id {}",id);
+        Car car = carService.findById(id);
+        if ( car == null) {
+            logger.info("Unable to delete. Car with id {} not found.", id);
+            return new ResponseEntity( new CustomErrorType("Unable to delete. Car with id " + id + " not found"), HttpStatus.NOT_FOUND);
+        }
+        carService.deleteCarById(id);
+        return new ResponseEntity<Car>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/car/", method = RequestMethod.DELETE)
+    public ResponseEntity<Car> deleteAllCars() {
+        logger.info("Deleting all Cars");
+        carService.deleteAllCars();
+        return new ResponseEntity<Car>(HttpStatus.NO_CONTENT);
+    }
+
+
+
 
 }
