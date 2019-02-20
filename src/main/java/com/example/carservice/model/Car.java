@@ -1,18 +1,26 @@
 package com.example.carservice.model;
 
-public class Car {
-   private long id;
-   private String nazwa;
-   private String modelSamochodu;
-   public Car(){
-       id=0;
-   }
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-   public Car(long id, String nazwa, String modelSamochodu){
-       this.id = id;
-       this.nazwa = nazwa;
-       this.modelSamochodu = modelSamochodu;
-   }
+@Entity
+public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String nazwa;
+    private String modelSamochodu;
+
+    public Car() {
+    }
+
+    public Car(long id, String nazwa, String modelSamochodu) {
+        this.id = id;
+        this.nazwa = nazwa;
+        this.modelSamochodu = modelSamochodu;
+    }
 
     public long getId() {
         return id;
@@ -40,28 +48,28 @@ public class Car {
 
     @Override
     public int hashCode() {
-       final int prime = 31;
-       int result = 1;
-       result = prime * result + (int) (id ^(id >>>32));
-       return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-       if (this == obj)
-           return true;
-       if (obj == null)
-           return false;
-       if (getClass() != obj.getClass())
-           return false;
-       Car other = (Car) obj;
-       if (id != other.id)
-           return false;
-       return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Car other = (Car) obj;
+        if (id != other.id)
+            return false;
+        return true;
     }
 
     @Override
     public String toString() {
-       return "Car [id= " + id + ", name= " + nazwa + ", car model= " + modelSamochodu + "]";
+        return "Car [id= " + id + ", name= " + nazwa + ", car model= " + modelSamochodu + "]";
     }
 }
