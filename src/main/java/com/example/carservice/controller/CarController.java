@@ -6,7 +6,6 @@ import com.example.carservice.service.CarService;
 import com.example.carservice.util.CustomErrorType;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +18,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class RestApiController {
+public class CarController {
 
-    public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CarController.class);
 
-    @Autowired
-    CarService carService;
+    private CarService carService;
 
-    @RequestMapping(value = "/car/", method = RequestMethod.GET)
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
+
+    @RequestMapping(value = "/car", method = RequestMethod.GET)
     public ResponseEntity<List<Car>> listAllCars() {
         List<Car> cars = carService.findAllCars();
             if (cars.isEmpty()) {
@@ -45,37 +47,44 @@ public class RestApiController {
         }
         return new ResponseEntity<Car>(car, HttpStatus.OK);
     }
+
     @RequestMapping(value = "/car/", method = RequestMethod.POST)
     public ResponseEntity<?> createCar(@RequestBody Car car, UriComponentsBuilder ucBuilder) {
         logger.info("Creating Car : {}", car);
 
-        if (carService.isCarExist(car)) {
-            logger.error("Unable to create. A Car with name {} already exist", car.getNazwa());
-            return new ResponseEntity(new CustomErrorType("Unable to create. A Car with name " + car.getNazwa() + " already exist."), HttpStatus.CONFLICT);
-        }
+        // popraw
+//        if (carService.isCarExist(car)) {
+//            logger.error("Unable to create. A Car with name {} already exist", car.getNazwa());
+//            return new ResponseEntity(new CustomErrorType("Unable to create. A Car with name " + car.getNazwa() + " already exist."), HttpStatus.CONFLICT);
+//        }
         carService.saveCar(car);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(car.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/car/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateCar(@PathVariable("id") long id, @RequestBody Car car) {
-        logger.info("Updating car with id {}", id);
-        Car currentCar = carService.findById(id);
-
-        if (currentCar == null) {
-            logger.info("Unable to update. Car with id {} not found", id);
-            return new ResponseEntity(new CustomErrorType("Unable to update. Carwith id " + id + " not found."), HttpStatus.NOT_FOUND);
-        }
-
-        currentCar.setNazwa(car.getNazwa());
-        currentCar.setModelSamochodu(car.getModelSamochodu());
-
-        carService.updateCar(currentCar);
-        return new ResponseEntity<Car>(currentCar, HttpStatus.OK);
-
-    }
+//  postaraj się nazpisać samemu
+//
+//
+//
+//
+//    @RequestMapping(value = "/car/{id}", method = RequestMethod.PUT)
+//    public ResponseEntity<?> updateCar(@PathVariable("id") long id, @RequestBody Car car) {
+//        logger.info("Updating car with id {}", id);
+//        Car currentCar = carService.findById(id);
+//
+//        if (currentCar == null) {
+//            logger.info("Unable to update. Car with id {} not found", id);
+//            return new ResponseEntity(new CustomErrorType("Unable to update. Carwith id " + id + " not found."), HttpStatus.NOT_FOUND);
+//        }
+//
+//        currentCar.setNazwa(car.getNazwa());
+//        currentCar.setModelSamochodu(car.getModelSamochodu());
+//
+//        carService.updateCar(currentCar);
+//        return new ResponseEntity<Car>(currentCar, HttpStatus.OK);
+//
+//    }
 
     @RequestMapping(value = "/car/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteCar(@PathVariable("id") long id) {
