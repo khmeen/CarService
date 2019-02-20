@@ -11,14 +11,11 @@ public interface CarService {
 
     void saveCar(Car car);
 
-    void updateCar(Car car);
+//    void updateCar(Car car);
 
     void deleteCarById(long id);
 
     void deleteAllCars();
 
     List<Car> findAllCars();
-
-    boolean isCarExist(Car car);
-
 }
