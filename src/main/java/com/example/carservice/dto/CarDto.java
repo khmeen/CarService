@@ -1,24 +1,9 @@
-package com.example.carservice.model;
+package com.example.carservice.dto;
 
-import javax.persistence.*;
-
-@Entity
-public class Car {
-    @Id
-    @GeneratedValue
-   private long id;
-
-   private String nazwa;
-
-   @Column(name = "model_samochodu")
-   private String modelSamochodu;
-   public Car(){ }
-
-   public Car(long id, String nazwa, String modelSamochodu){
-       this.id = id;
-       this.nazwa = nazwa;
-       this.modelSamochodu = modelSamochodu;
-   }
+public class CarDto {
+    private long id;
+    private String nazwa;
+    private String modelSamochodu;
 
     public long getId() {
         return id;

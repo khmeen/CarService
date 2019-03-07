@@ -1,13 +1,11 @@
 package com.example.carservice.service;
 
+import com.example.carservice.dto.CarDto;
 import com.example.carservice.model.Car;
 import com.example.carservice.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -35,17 +33,20 @@ public class CarServiceImpl implements CarService {
     }
 
     //postaraj się napisać update samemu
-//    @Override
-//    public void updateCar(Car car) {
-//        int index = cars.indexOf(car);
-//        cars.set(index, car);
-//    }
+
+    public void updateCar(Car car) { carRepository.save(car);
+
+  }
 
     @Override
     public void deleteCarById(long id) {
         carRepository.deleteById(id);
     }
+
     public void deleteAllCars() {
         carRepository.deleteAll();
     }
+
+
+
 }
