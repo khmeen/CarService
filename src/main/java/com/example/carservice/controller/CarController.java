@@ -42,24 +42,24 @@ public class CarController {
         Car car = carService.findById(id);
         if (car == null) {
             logger.error("Car with id {} not found.", id);
-            return new ResponseEntity(new CustomErrorType("User with id " + id + " not found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new CustomErrorType("Car with id " + id + " not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Car>(car, HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/car/", method = RequestMethod.POST)
-//    public ResponseEntity<?> createCar(@RequestBody Car car, UriComponentsBuilder ucBuilder) {
-//        logger.info("Creating Car : {}", car);
-        // popraw
-//        if (carService.isCarExist(car)) {
-//            logger.error("Unable to create. A Car with name {} already exist", car.getNazwa());
-//            return new ResponseEntity(new CustomErrorType("Unable to create. A Car with name " + car.getNazwa() + " already exist."), HttpStatus.CONFLICT);
-//        }
-//        carService.saveCar(car);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(ucBuilder.path("/api/car/{id}").buildAndExpand(car.getId()).toUri());
-//        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-//    }
+    @RequestMapping(value = "/car/", method = RequestMethod.POST)
+    public ResponseEntity<?> createCar(@RequestBody Car car, UriComponentsBuilder ucBuilder) {
+        logger.info("Creating Car : {}", car);
+
+        if (carService.isCarExist(car)) {
+            logger.error("Unable to create. A Car with name {} already exist", car.getNazwa());
+            return new ResponseEntity(new CustomErrorType("Unable to create. A Car with name " + car.getNazwa() + " already exist."), HttpStatus.CONFLICT);
+        }
+        carService.saveCar(car);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/car/{id}").buildAndExpand(car.getId()).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
 
     //  postaraj się nazpisać samemu
 //

@@ -17,5 +17,7 @@ public interface CarService {
 
     void deleteAllCars();
 
+    boolean isCarExist(Car car);
+
     List<Car> findAllCars();
 }

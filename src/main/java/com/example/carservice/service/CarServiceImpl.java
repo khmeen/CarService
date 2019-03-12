@@ -24,19 +24,20 @@ public class CarServiceImpl implements CarService {
         return carRepository.getOne(id);
     }
 
-    public Car findByName(String nazwa) {
-        return carRepository.findByNazwa(nazwa);
-    }
+    public Car findByName(String nazwa) {return  carRepository.findByNazwa(nazwa); }
 
     public void saveCar(Car car) {
         carRepository.save(car);
     }
 
+    public boolean isCarExist (Car car) { return carRepository.findByNazwa(car.getNazwa())!=null;}
+
     //postaraj się napisać update samemu
 
-    public void updateCar(Car car) { carRepository.save(car);
+    public void updateCar(Car car) { carRepository.save(car);}
 
-  }
+
+
 
     @Override
     public void deleteCarById(long id) {
