@@ -1,11 +1,14 @@
 package com.example.carservice.controller;
 
 
+import com.example.carservice.dto.CarDto;
 import com.example.carservice.model.Car;
+import com.example.carservice.service.CarFacade;
 import com.example.carservice.service.CarService;
 import com.example.carservice.util.CustomErrorType;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +26,15 @@ public class CarController {
 
     private CarService carService;
 
+
+    private CarFacade carFacade;
+
     public CarController(CarService carService) {
         this.carService = carService;
     }
 
     @RequestMapping(value = "/car", method = RequestMethod.GET)
+
     public ResponseEntity<List<Car>> listAllCars() {
         List<Car> cars = carService.findAllCars();
         if (cars.isEmpty()) {
@@ -37,14 +44,15 @@ public class CarController {
     }
 
     @RequestMapping(value = "/car/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getCar(@PathVariable("id") long id) {
+
+    public ResponseEntity<CarDto> getCar(@PathVariable("id") long id) {
         logger.info("Fetching Car with id {}", id);
-        Car car = carService.findById(id);
+        CarDto car = carFacade.getCarById(id);
         if (car == null) {
             logger.error("Car with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("Car with id " + id + " not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Car>(car, HttpStatus.OK);
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/car/", method = RequestMethod.POST)

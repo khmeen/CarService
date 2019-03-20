@@ -1,9 +1,11 @@
 package com.example.carservice.model;
 
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Car {
+public class Car implements Serializable {
     @Id
     @GeneratedValue
    private long id;
@@ -43,4 +45,6 @@ public class Car {
     public void setModelSamochodu(String modelSamochodu) {
         this.modelSamochodu = modelSamochodu;
     }
+
+
 }
