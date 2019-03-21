@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Entity
 public class Car implements Serializable {
+
     @Id
     @GeneratedValue
    private long id;

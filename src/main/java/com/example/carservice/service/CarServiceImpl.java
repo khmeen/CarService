@@ -1,13 +1,14 @@
 package com.example.carservice.service;
 
-import com.example.carservice.dto.CarDto;
+import com.example.carservice.dto.CarRequest;
+import com.example.carservice.dto.CarResponse;
+import com.example.carservice.dto.GetCarRequest;
 import com.example.carservice.model.Car;
 import com.example.carservice.repository.CarRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -20,6 +21,41 @@ public class CarServiceImpl implements CarService {
 
     public List<Car> findAllCars() {
         return carRepository.findAll();
+    }
+
+    @Override
+    public void addCar(CarRequest request) {
+        Car car = new Car();
+        car.setModelSamochodu(request.getModelSamochodu());
+        car.setNazwa(request.getNazwa());
+
+        carRepository.save(car);
+    }
+
+    @Override
+    public CarResponse car(long id) {
+        final Car car = carRepository.getOne(id);
+
+        CarResponse carResponse = new CarResponse();
+        carResponse.setNazwa(car.getNazwa());
+        carResponse.setModelSamochodu(car.getModelSamochodu());
+        carResponse.setId(car.getId());
+
+        return carResponse;
+    }
+
+    @Override
+    public List<CarResponse> cars() {
+        final List<Car> cars = carRepository.findAll();
+
+        return cars.stream().map(item -> {
+            CarResponse car = new CarResponse();
+            car.setId(item.getId());
+            car.setModelSamochodu(item.getModelSamochodu());
+            car.setNazwa(item.getNazwa());
+
+            return car;
+        }).collect(Collectors.toList());
     }
 
     public Car findById(long id) {

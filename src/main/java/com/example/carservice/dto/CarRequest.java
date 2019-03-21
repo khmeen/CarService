@@ -1,16 +1,19 @@
 package com.example.carservice.dto;
 
-public class CarDto {
-    private long id;
+import javax.validation.constraints.NotBlank;
+
+public class CarRequest {
+    @NotBlank
     private String nazwa;
+    @NotBlank
     private String modelSamochodu;
 
-    public long getId() {
-        return id;
+    public CarRequest() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public CarRequest(@NotBlank String nazwa, @NotBlank String modelSamochodu) {
+        this.nazwa = nazwa;
+        this.modelSamochodu = modelSamochodu;
     }
 
     public String getNazwa() {
