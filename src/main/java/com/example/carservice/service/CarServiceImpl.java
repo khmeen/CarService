@@ -58,24 +58,35 @@ public class CarServiceImpl implements CarService {
         }).collect(Collectors.toList());
     }
 
+
+   // @Override
+    //public void updateCar(Long id, CarRequest request) {
+    //    CarRequest car = carRepository.findById(id);
+
+    //}
+
+
+
     public Car findById(long id) {
         return carRepository.getOne(id);
     }
 
-    public Car findByName(String nazwa) {return  carRepository.findByNazwa(nazwa); }
+    public Car findByName(String nazwa) {
+        return carRepository.findByNazwa(nazwa);
+    }
 
     public void saveCar(Car car) {
         carRepository.save(car);
     }
 
-    public boolean isCarExist (Car car) { return carRepository.findByNazwa(car.getNazwa())!=null;}
-
-    //postaraj się napisać update samemu
-
-    public void updateCar(Car car) { carRepository.save(car);}
-
-
     @Override
+    public void updateCar(Long id, CarRequest request) {
+        Car updateCar = carRepository.getOne(id);
+        updateCar.setModelSamochodu(request.getModelSamochodu());
+        updateCar.setNazwa(request.getNazwa());
+        carRepository.save(updateCar);
+    }
+
     public void deleteCarById(long id) {
         carRepository.deleteById(id);
     }
@@ -86,10 +97,8 @@ public class CarServiceImpl implements CarService {
 
 
 
-
-
-
-
 }
+
+
 
 

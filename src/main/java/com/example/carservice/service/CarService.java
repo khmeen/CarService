@@ -14,17 +14,15 @@ public interface CarService {
 
     void saveCar(Car car);
 
-    void updateCar(Car car);
+    void updateCar(Long id, CarRequest request);
 
     void deleteCarById(long id);
-
-    void deleteAllCars();
-
-    boolean isCarExist(Car car);
 
     List<Car> findAllCars();
 
     void addCar(CarRequest request);
+
+    void deleteAllCars();
 
     CarResponse car(long id);
 

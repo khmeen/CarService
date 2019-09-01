@@ -49,6 +49,28 @@ public class CarController {
         return new ResponseEntity<>(carService.cars(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/cars")
+    public ResponseEntity<CarResponse> deleteAllCars() {
+        logger.info("Deleting all cars");
+        carService.deleteAllCars();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/car/{id}")
+    public ResponseEntity<CarResponse> deleteCar(@PathVariable("id") long id) {
+        logger.info("Fetching & deleting car by id: " + id);
+        carService.deleteCarById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PutMapping("/car/{id}")
+    public void updateCar(@RequestBody @Valid CarRequest request, @PathVariable("id")long id) {
+        logger.info("Updating car with name: " + request.getNazwa());
+        carService.updateCar(id, request);
+
+    }
+
+}
 //
 //    @RequestMapping(value = "/car", method = RequestMethod.GET)
 //    public ResponseEntity<List<Car>> listAllCars() {
@@ -122,4 +144,4 @@ public class CarController {
 //                carService.deleteAllCars();
 //                return new ResponseEntity<Car>(HttpStatus.NO_CONTENT);
 //            }
-}
+
